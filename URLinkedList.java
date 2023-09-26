@@ -11,19 +11,46 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
 	boolean add(E e) {
         URNode<E> newNode = new URNode<E>(e, last, null);
         last = newNode;
-		//test
+		if (first == null) {
+            first = newNode;
+        } else {
+            URNode<E> temp = first;
+            while (temp.next()!= null) {
+                temp = temp.next();
+            }
+            temp.setNext(newNode);
+        }
+        n++;
+        return true;
+
     }
 
 	// Inserts the specified element at the specified position in this list 
 	void add(int index, E element) {
-
+		URNode<E> newNode = new URNode<E>(element, null, null);
+        if (index == 0) {
+            newNode.setNext(first);
+            first = newNode;
+        } else {
+            URNode<E> temp = first;
+            for (int i = 0; i < index - 1; i++) {
+                temp = temp.next();
+            }
+            newNode.setNext(temp.next());
+            temp.setNext(newNode);
+        }
+        n++;
     }
 
 	// Appends all of the elements in the specified collection to the end of this list,
 	// in the order that they are returned by the specified collection's iterator 
-	boolean addAll(Collection<? extends E> c) {
-
+	boolean addAll(Collection<? extends E> c) {		
+	URNode<E> newNode = new URNode(null, null, null);
+	for (E it : c) {
+        add(it);
     }
+
+}
 
 	// Inserts all of the elements in the specified collection into this list 
 	// at the specified position
