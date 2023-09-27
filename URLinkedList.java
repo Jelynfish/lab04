@@ -8,7 +8,7 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
     private int n;
 
     // Appends the specified element to the end of this list 
-	boolean add(E e) {
+	public boolean add(E e) {
         URNode<E> newNode = new URNode<E>(e, last, null);
         last = newNode;
 		if (first == null) {
@@ -26,7 +26,7 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
     }
 
 	// Inserts the specified element at the specified position in this list 
-	void add(int index, E element) {
+	public void add(int index, E element) {
 		URNode<E> newNode = new URNode<E>(element, null, null);
         if (index == 0) {
             newNode.setNext(first);
@@ -44,101 +44,164 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
 
 	// Appends all of the elements in the specified collection to the end of this list,
 	// in the order that they are returned by the specified collection's iterator 
-	boolean addAll(Collection<? extends E> c) {		
-	URNode<E> newNode = new URNode(null, null, null);
-	for (E it : c) {
-        add(it);
+	public boolean addAll(Collection<? extends E> c) {		
+		URNode<E> newNode = new URNode(null, null, null);
+		for (E it : c) {
+       		add(it);
+		}
     }
 
-}
 
 	// Inserts all of the elements in the specified collection into this list 
 	// at the specified position
-	boolean addAll(int index, Collection<? extends E> c) {
-
+	public boolean addAll(int index, Collection<? extends E> c) {
+		
     }
 
 	// Removes all of the elements from this list 
-	void clear() {
-
+	public void clear() {
+		first = null;
     }
 
 	// Returns true if this list contains the specified element.
-	boolean contains(Object o) {
-
+	public boolean contains(Object o) {
+		URNode<E> temp = first;
+		while (temp.next() != null) {
+			if (temp.element().equals(o)) return true;
+			temp = temp.next();
+		} 
+		return false;
     }
 
 	// Returns true if this list contains all of the elements of the specified collection
-	boolean containsAll(Collection<?> c) {
-
+	public boolean containsAll(Collection<?> c) {
+	
     }
 
 	// Compares the specified object with this list for equality. 
 	// Returns true if both contain the same elements. Ignore capacity
-	boolean equals(Object o) {
+	public boolean equals(Object o) {
 
     }
 
 	// Returns the element at the specified position in this list.
-	E get(int index) {
+	public E get(int index) {
+		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
 
+		URNode<E> temp = first;
+		int current = 0; 
+		
+		while (current != index) {
+			temp = temp.next();
+			current++;
+		}
+
+		return temp.element();
     }
 
 	// Returns the index of the first occurrence of the specified element in this list, 
 	// or -1 if this list does not contain the element.
-	int indexOf(Object o) {
+	public int indexOf(Object o) {
+		URNode<E> temp = first; 
+		int current = 0; 
+		
+		while (temp.next() != null) {
+			if (temp.element().equals(o)) return current;
+			temp = temp.next();
+			current++;
+		}
 
+		return -1;
     }
 
 	// Returns true if this list contains no elements.
-	boolean    isEmpty() {
-
+	public boolean isEmpty() {
+		if (first == null) return true;
+		return false;
     }
 
 	// Returns an iterator over the elements in this list in proper sequence.
-	Iterator<E> iterator() {
+	public Iterator<E> iterator() {
 
     }
 
 	// Removes the element at the specified position in this list 
-	E remove(int index) {
+	public E remove(int index) {
+		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
 
+		URNode<E> temp = first;
+		int current = 0; 
+		
+		while (current != index) {
+			temp = temp.next();
+			current++;
+		}
+
+		temp.prev().setNext(temp.next());
+		return temp.element();
     }
 
 	// Removes the first occurrence of the specified element from this list,
 	// if it is present 
-	boolean    remove(Object o) {
-
+	public boolean remove(Object o) {
+		URNode<E> temp = first;
+		while (temp.next() != null) {
+			if (temp.element().equals(o)) {
+				temp.prev().setNext(temp.next());
+				return true;
+			}
+			temp = temp.next();
+		} 
+		return false;
     }
 
 	// Removes from this list all of its elements that are contained
 	//  in the specified collection
-	boolean    removeAll(Collection<?> c) {
+	public boolean removeAll(Collection<?> c) {
 
     }
 
 	// Replaces the element at the specified position in this list
 	// with the specified element 
-	E set(int index, E element) {
+	public E set(int index, E element) {
+		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
 
+		URNode<E> temp = first;
+		int current = 0; 
+		
+		while (current != index) {
+			temp = temp.next();
+			current++;
+		}
+
+		temp.setElement(element);
+		return temp.element();
     }
 
 	// Returns the number of elements in this list.
-	int size() {
-
+	public int size() {
+		return n;
     }
 
 	// Returns a view of the portion of this list 
 	// between the specified fromIndex, inclusive, and toIndex, exclusive.
-	URList<E> subList(int fromIndex, int toIndex) {
+	public URList<E> subList(int fromIndex, int toIndex) {
 
     }
 
 
 	// Returns an array containing all of the elements in this list
 	//  in proper sequence (from first to the last element).
-	Object[] toArray() {
-
+	public Object[] toArray() {
+		Object[] array = new Object[n];
+		URNode<E> temp = first;
+		
+		int i = 0;
+		while (temp.next() != null) {
+			array[i] = temp.element();
+			temp = temp.next();
+		}
+		return array;
     }
 
 }
