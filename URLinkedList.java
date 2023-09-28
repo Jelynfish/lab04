@@ -1,11 +1,20 @@
 import java.util.Collection;
 import java.util.Iterator;
 
-public class URLinkedList<E> extends URNode<E> implements URList<E>{
+public class URLinkedList<E> implements URList<E>{
     
     private URNode<E> first; 
     private URNode<E> last;
     private int n;
+
+	public URLinkedList() {
+		first = null;
+		last = null;
+	}
+
+	public URLinkedList(Collection<? extends E> c) {
+
+	}
 
     // Appends the specified element to the end of this list 
 	public boolean add(E e) {
@@ -13,12 +22,15 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
         last = newNode;
 		if (first == null) {
             first = newNode;
-        } else {
+			last = newNode;
+        } 
+		else {
             URNode<E> temp = first;
             while (temp.next()!= null) {
                 temp = temp.next();
             }
             temp.setNext(newNode);
+			last = temp.next();
         }
         n++;
         return true;
@@ -28,10 +40,16 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
 	// Inserts the specified element at the specified position in this list 
 	public void add(int index, E element) {
 		URNode<E> newNode = new URNode<E>(element, null, null);
+		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
         if (index == 0) {
             newNode.setNext(first);
             first = newNode;
-        } else {
+        } 
+		else if (index == n-1) {
+			last.setNext(newNode);
+			last = newNode;
+		}
+		else {
             URNode<E> temp = first;
             for (int i = 0; i < index - 1; i++) {
                 temp = temp.next();
@@ -45,22 +63,26 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
 	// Appends all of the elements in the specified collection to the end of this list,
 	// in the order that they are returned by the specified collection's iterator 
 	public boolean addAll(Collection<? extends E> c) {		
-		URNode<E> newNode = new URNode(null, null, null);
 		for (E it : c) {
        		add(it);
 		}
+		return true;
     }
-
 
 	// Inserts all of the elements in the specified collection into this list 
 	// at the specified position
 	public boolean addAll(int index, Collection<? extends E> c) {
-		
+		for (E it : c) {
+			add(index, it);
+			index++;
+		}
+		return true;
     }
 
 	// Removes all of the elements from this list 
 	public void clear() {
 		first = null;
+		last = null;
     }
 
 	// Returns true if this list contains the specified element.
@@ -116,7 +138,7 @@ public class URLinkedList<E> extends URNode<E> implements URList<E>{
 
 	// Returns true if this list contains no elements.
 	public boolean isEmpty() {
-		if (first == null) return true;
+		if (first == null && last == null) return true;
 		return false;
     }
 
