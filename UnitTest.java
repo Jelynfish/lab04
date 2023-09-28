@@ -9,5 +9,16 @@ public class UnitTest {
                     test1.add(i);
                 }
                 System.out.println(Arrays.toString(test1.toArray()));
+            
+            if (test1.get(7) == 7){
+                System.out.println("Test 1 Passed");
+            }
+            test1.remove(2);
+            if (test1.get(2) == 3){
+                System.out.println("Test 2 Passed");
+            }
+            if (test1.size() == 9){
+                System.out.println("Test 3 Passed");
+            }
     }
 }
