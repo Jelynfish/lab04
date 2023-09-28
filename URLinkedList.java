@@ -14,7 +14,7 @@ public class URLinkedList<E> implements URList<E>{
 	}
 
 	public URLinkedList(Collection<? extends E> c) {
-
+		for (E it : c) add(it);
 	}
 
     // Appends the specified element to the end of this list 
@@ -80,7 +80,7 @@ public class URLinkedList<E> implements URList<E>{
 
 	// Returns true if this list contains all of the elements of the specified collection
 	public boolean containsAll(Collection<?> c) {
-	
+		
     }
 
 	// Compares the specified object with this list for equality. 
@@ -142,6 +142,7 @@ public class URLinkedList<E> implements URList<E>{
 		}
 
 		temp.prev().setNext(temp.next());
+		n--;
 		return temp.element();
     }
 
@@ -156,6 +157,7 @@ public class URLinkedList<E> implements URList<E>{
 			}
 			temp = temp.next();
 		} 
+		n--;
 		return false;
     }
 
