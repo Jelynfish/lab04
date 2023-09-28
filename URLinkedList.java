@@ -10,6 +10,7 @@ public class URLinkedList<E> implements URList<E>{
 	public URLinkedList() {
 		first = null;
 		last = null;
+		n = 0;
 	}
 
 	public URLinkedList(Collection<? extends E> c) {
@@ -25,12 +26,8 @@ public class URLinkedList<E> implements URList<E>{
 			last = newNode;
         } 
 		else {
-            URNode<E> temp = first;
-            while (temp.next()!= null) {
-                temp = temp.next();
-            }
-            temp.setNext(newNode);
-			last = temp.next();
+            last.setNext(newNode);
+			last = newNode;
         }
         n++;
         return true;
@@ -41,14 +38,17 @@ public class URLinkedList<E> implements URList<E>{
 	public void add(int index, E element) {
 		URNode<E> newNode = new URNode<E>(element, null, null);
 		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
-        if (index == 0) {
+        
+		if (index == 0) {
             newNode.setNext(first);
             first = newNode;
         } 
+
 		else if (index == n-1) {
 			last.setNext(newNode);
 			last = newNode;
 		}
+
 		else {
             URNode<E> temp = first;
             for (int i = 0; i < index - 1; i++) {
@@ -57,6 +57,7 @@ public class URLinkedList<E> implements URList<E>{
             newNode.setNext(temp.next());
             temp.setNext(newNode);
         }
+
         n++;
     }
 
@@ -83,6 +84,7 @@ public class URLinkedList<E> implements URList<E>{
 	public void clear() {
 		first = null;
 		last = null;
+		n = 0;
     }
 
 	// Returns true if this list contains the specified element.
@@ -138,8 +140,7 @@ public class URLinkedList<E> implements URList<E>{
 
 	// Returns true if this list contains no elements.
 	public boolean isEmpty() {
-		if (first == null && last == null) return true;
-		return false;
+		return (first == null && last == null && n == 0);
     }
 
 	// Returns an iterator over the elements in this list in proper sequence.
