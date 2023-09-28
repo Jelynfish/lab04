@@ -61,8 +61,7 @@ public class URLinkedList<E> implements URList<E>{
         n++;
     }
 
-	// Appends all of the elements in the specified collection to the end of this list,
-	// in the order that they are returned by the specified collection's iterator 
+	// Appends all of the elements in the specified collection to the end of this list,in the order that they are returned by the specified collection's iterator 
 	public boolean addAll(Collection<? extends E> c) {		
 		for (E it : c) {
        		add(it);
@@ -178,10 +177,17 @@ public class URLinkedList<E> implements URList<E>{
 		return false;
     }
 
-	// Removes from this list all of its elements that are contained
-	//  in the specified collection
+	// Removes from this list all of its elements that are contained in the specified collection
 	public boolean removeAll(Collection<?> c) {
-
+		URNode<E> temp = first;
+        while (temp.next()!= null) {
+            if (c.contains(temp.element())) {
+                temp.prev().setNext(temp.next());
+                return true;
+            }
+            temp = temp.next();
+        } 
+        return false;
     }
 
 	// Replaces the element at the specified position in this list
@@ -206,8 +212,7 @@ public class URLinkedList<E> implements URList<E>{
 		return n;
     }
 
-	// Returns a view of the portion of this list 
-	// between the specified fromIndex, inclusive, and toIndex, exclusive.
+	// Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
 	public URList<E> subList(int fromIndex, int toIndex) {
 
     }
