@@ -20,7 +20,7 @@ public class URLinkedList<E> implements URList<E>{
     // Appends the specified element to the end of this list 
 	public boolean add(E e) {
         URNode<E> newNode = new URNode<E>(e, last, null);
-        last = newNode;
+        
 		if (first == null) {
             first = newNode;
 			last = newNode;
