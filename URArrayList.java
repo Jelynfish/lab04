@@ -1,3 +1,3 @@
-public class URArrayList extends URNode implements URList {
+public class URArrayList implements URList {
     
 }

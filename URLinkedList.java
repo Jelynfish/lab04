@@ -25,6 +25,7 @@ public class URLinkedList<E> implements URList<E>{
             first = newNode;
 			last = newNode;
         } 
+
 		else {
             last.setNext(newNode);
 			last = newNode;
@@ -36,32 +37,13 @@ public class URLinkedList<E> implements URList<E>{
 
 	// Inserts the specified element at the specified position in this list 
 	public void add(int index, E element) {
-		URNode<E> newNode = new URNode<E>(element, null, null);
-		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
-        
-		if (index == 0) {
-            newNode.setNext(first);
-            first = newNode;
-        } 
+		URNode<E> newNode = new URNode<E>(element, null, null); 
 
-		else if (index == n-1) {
-			last.setNext(newNode);
-			last = newNode;
-		}
-
-		else {
-            URNode<E> temp = first;
-            for (int i = 0; i < index - 1; i++) {
-                temp = temp.next();
-            }
-            newNode.setNext(temp.next());
-            temp.setNext(newNode);
-        }
-
-        n++;
+		
     }
 
-	// Appends all of the elements in the specified collection to the end of this list,in the order that they are returned by the specified collection's iterator 
+	// Appends all of the elements in the specified collection to the end of this list,
+	// in the order that they are returned by the specified collection's iterator 
 	public boolean addAll(Collection<? extends E> c) {		
 		for (E it : c) {
        		add(it);
@@ -89,7 +71,7 @@ public class URLinkedList<E> implements URList<E>{
 	// Returns true if this list contains the specified element.
 	public boolean contains(Object o) {
 		URNode<E> temp = first;
-		while (temp.next() != null) {
+		while (temp != null) {
 			if (temp.element().equals(o)) return true;
 			temp = temp.next();
 		} 
@@ -128,7 +110,7 @@ public class URLinkedList<E> implements URList<E>{
 		URNode<E> temp = first; 
 		int current = 0; 
 		
-		while (temp.next() != null) {
+		while (temp != null) {
 			if (temp.element().equals(o)) return current;
 			temp = temp.next();
 			current++;
@@ -167,7 +149,7 @@ public class URLinkedList<E> implements URList<E>{
 	// if it is present 
 	public boolean remove(Object o) {
 		URNode<E> temp = first;
-		while (temp.next() != null) {
+		while (temp != null) {
 			if (temp.element().equals(o)) {
 				temp.prev().setNext(temp.next());
 				return true;
@@ -177,17 +159,10 @@ public class URLinkedList<E> implements URList<E>{
 		return false;
     }
 
-	// Removes from this list all of its elements that are contained in the specified collection
+	// Removes from this list all of its elements that are contained
+	//  in the specified collection
 	public boolean removeAll(Collection<?> c) {
-		URNode<E> temp = first;
-        while (temp.next()!= null) {
-            if (c.contains(temp.element())) {
-                temp.prev().setNext(temp.next());
-                return true;
-            }
-            temp = temp.next();
-        } 
-        return false;
+
     }
 
 	// Replaces the element at the specified position in this list
@@ -212,9 +187,23 @@ public class URLinkedList<E> implements URList<E>{
 		return n;
     }
 
-	// Returns a view of the portion of this list between the specified fromIndex, inclusive, and toIndex, exclusive.
+	// Returns a view of the portion of this list 
+	// between the specified fromIndex, inclusive, and toIndex, exclusive.
 	public URList<E> subList(int fromIndex, int toIndex) {
+		URLinkedList<E> subList = new URLinkedList<E>();
 
+		int index = 0;
+		while (index < toIndex) {
+			URNode<E> thisNode = first;
+
+			if (index >= fromIndex - 1) {
+				subList.add(thisNode.element());
+			}
+			index++;
+			thisNode = thisNode.next();
+		}
+
+		return subList;
     }
 
 
@@ -225,9 +214,10 @@ public class URLinkedList<E> implements URList<E>{
 		URNode<E> temp = first;
 		
 		int i = 0;
-		while (temp.next() != null) {
+		while (temp != null) {
 			array[i] = temp.element();
 			temp = temp.next();
+			i++;
 		}
 		return array;
     }
