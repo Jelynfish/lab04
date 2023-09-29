@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 public class UnitTest {
-        public static void main(String[] args){
+        public static void main(String[] args) {
             URLinkedList<Integer> test1 = new URLinkedList<Integer>();
             //add 10 elemetns to the list, expected output 1,2 ..., 10
                 for (int i = 0; i < 10; i++) {
@@ -36,11 +36,13 @@ public class UnitTest {
                 System.out.println("Test 6 Passed");
             }
             System.out.println(Arrays.toString(test1.toArray()));
-            
+
             ArrayList<Integer> abc = new ArrayList<>();
             abc.add(1);
-            abc.add(2);
+            abc.add(1);
             abc.add(3);
+            abc.add(3);
+            System.out.println(test1.containsAll(abc));
             test1.removeAll(abc);
             System.out.println(Arrays.toString(test1.toArray()));
     }

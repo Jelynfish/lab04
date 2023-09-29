@@ -80,13 +80,32 @@ public class URLinkedList<E> implements URList<E>{
 
 	// Returns true if this list contains all of the elements of the specified collection
 	public boolean containsAll(Collection<?> c) {
-		
+		for (Object e : c)
+        	if (!contains(e))
+            return false;
+    	return true;
     }
 
 	// Compares the specified object with this list for equality. 
 	// Returns true if both contain the same elements. Ignore capacity
 	public boolean equals(Object o) {
+		if (this == o) return true;
+		
+		if (o instanceof URLinkedList) { 
+			URLinkedList<E> other = (URLinkedList<E>)o;
+			URNode<E> temp = first;
+			URNode<E> temp2 = other.first;
 
+			while (temp != null) {
+				if (temp.element() != temp2.element()) {
+					return false;
+				}
+				temp = temp.next();
+				temp2 = temp2.next();
+			}
+			return true;
+		}
+		return false;
     }
 
 	// Returns the element at the specified position in this list.
@@ -142,7 +161,9 @@ public class URLinkedList<E> implements URList<E>{
 		}
 
 		temp.prev().setNext(temp.next());
+		temp.next().setPrev(temp.prev());
 		n--;
+
 		return temp.element();
     }
 
@@ -153,30 +174,23 @@ public class URLinkedList<E> implements URList<E>{
 		while (temp != null) {
 			if (temp.element().equals(o)) {
 				temp.prev().setNext(temp.next());
+				temp.next().setPrev(temp.prev());
+				n--;
 				return true;
 			}
 			temp = temp.next();
 		} 
-		n--;
+		
 		return false;
     }
 
 	// Removes from this list all of its elements that are contained
 	//  in the specified collection
 	public boolean removeAll(Collection<?> c) {
-		URNode<E> temp = first;
-		boolean removed = false;
-        while (temp != null) {
-            if (c.contains(temp.element())) {
-				System.out.println(temp.element());
-                temp.prev().setNext(temp.next());
-				temp.next().setPrev(temp.prev());
-				n--;
-				removed = true;
-            }
-            temp = temp.next();
-        } 
-        return removed;
+		for (Object e : c)
+        	if (contains(e))
+			remove(e);
+    	return true;
     }
 
 	// Replaces the element at the specified position in this list
