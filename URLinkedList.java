@@ -164,7 +164,19 @@ public class URLinkedList<E> implements URList<E>{
 	// Removes from this list all of its elements that are contained
 	//  in the specified collection
 	public boolean removeAll(Collection<?> c) {
-
+		URNode<E> temp = first;
+		boolean removed = false;
+        while (temp != null) {
+            if (c.contains(temp.element())) {
+				System.out.println(temp.element());
+                temp.prev().setNext(temp.next());
+				temp.next().setPrev(temp.prev());
+				n--;
+				removed = true;
+            }
+            temp = temp.next();
+        } 
+        return removed;
     }
 
 	// Replaces the element at the specified position in this list

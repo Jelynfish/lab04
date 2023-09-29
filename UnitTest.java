@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 public class UnitTest {
         public static void main(String[] args){
@@ -33,5 +35,13 @@ public class UnitTest {
             if (test1.contains(2)==false){
                 System.out.println("Test 6 Passed");
             }
+            System.out.println(Arrays.toString(test1.toArray()));
+            
+            ArrayList<Integer> abc = new ArrayList<>();
+            abc.add(1);
+            abc.add(2);
+            abc.add(3);
+            test1.removeAll(abc);
+            System.out.println(Arrays.toString(test1.toArray()));
     }
 }
