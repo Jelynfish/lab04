@@ -1,7 +1,7 @@
 import java.util.Collection;
 import java.util.Iterator;
 
-public class URLinkedList<E> implements URList<E>{
+public class URLinkedList<E> implements URList<E> {
     
     private URNode<E> first; 
     private URNode<E> last;
@@ -37,10 +37,36 @@ public class URLinkedList<E> implements URList<E>{
 
 	// Inserts the specified element at the specified position in this list 
 	public void add(int index, E element) {
-		URNode<E> newNode = new URNode<E>(element, null, null); 
+		if (index > n || index < 0) throw new IndexOutOfBoundsException(index);
 
-		
-    }
+		URNode<E> newNode = new URNode<E>(element, null, null);
+		if (n == 0) {
+			first = newNode;
+			last = newNode;
+		}
+		else {
+			if (index == 0) {
+				newNode.setNext(first);
+				first.setPrev(newNode);
+				first = newNode;
+			}
+			else if	(index == n) {
+				newNode.setPrev(last);
+				last.setNext(newNode);
+				last = newNode;
+			}	
+			else {
+				URNode<E> temp = first;
+				for (int i = 0; i < index; i++) temp = temp.next();
+
+				newNode.setNext(temp);
+				newNode.setPrev(temp);
+				temp.prev().setNext(newNode);
+				temp.setPrev(newNode);
+			}
+		}
+		n++;
+	}
 
 	// Appends all of the elements in the specified collection to the end of this list,
 	// in the order that they are returned by the specified collection's iterator 
@@ -113,12 +139,8 @@ public class URLinkedList<E> implements URList<E>{
 		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
 
 		URNode<E> temp = first;
-		int current = 0; 
 		
-		while (current != index) {
-			temp = temp.next();
-			current++;
-		}
+		for (int i = 0; i < index; i++) temp = temp.next();
 
 		return temp.element();
     }
@@ -144,21 +166,49 @@ public class URLinkedList<E> implements URList<E>{
     }
 
 	// Returns an iterator over the elements in this list in proper sequence.
-	public Iterator<E> iterator() {
+	public Iterator<E> iterator(){
+		return new Iterator<E>() {
+		
+			URNode<E> temp = first;
 
-    }
+			@Override
+			public boolean hasNext() {
+				return (temp.next() != null);
+			}
+
+			@Override
+			public E next() {
+				if (hasNext()) {
+					E element = temp.element();
+                	temp = temp.next();
+                	return element;
+				}
+				return null;
+			}
+
+			public void remove() {
+				if (hasNext()) temp.next().setPrev(temp.prev());
+				else {
+					last = temp.prev();
+					temp.prev().setNext(null);
+				}
+				if (temp.prev() != null) temp.prev().setNext(temp.next());
+				else {
+					first = temp.next();
+					temp.next().setPrev(null);
+				}
+				n--;
+			}
+		};
+	}
 
 	// Removes the element at the specified position in this list 
 	public E remove(int index) {
 		if (index >= n || index < 0) throw new IndexOutOfBoundsException(index);
 
 		URNode<E> temp = first;
-		int current = 0; 
 		
-		while (current != index) {
-			temp = temp.next();
-			current++;
-		}
+		for (int i = 0; i < index; i++) temp = temp.next();
 
 		temp.prev().setNext(temp.next());
 		temp.next().setPrev(temp.prev());

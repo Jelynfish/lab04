@@ -1,14 +1,15 @@
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class UnitTest {
         public static void main(String[] args) {
             URLinkedList<Integer> test1 = new URLinkedList<Integer>();
             //add 10 elemetns to the list, expected output 1,2 ..., 10
                 for (int i = 0; i < 10; i++) {
-                    System.out.println(i);
-                    test1.add(i);
+                    test1.add(i,i);
+                    System.out.println(Arrays.toString(test1.toArray()));
                 }
                 System.out.println(Arrays.toString(test1.toArray()));
             
@@ -44,6 +45,14 @@ public class UnitTest {
             abc.add(3);
             System.out.println(test1.containsAll(abc));
             test1.removeAll(abc);
+            System.out.println(Arrays.toString(test1.toArray()));
+
+            Iterator<Integer> it = test1.iterator();
+            while(it.hasNext()) {
+                Integer i = it.next();
+                if (i > 6) it.remove();
+            }
+
             System.out.println(Arrays.toString(test1.toArray()));
     }
 }
