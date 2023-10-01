@@ -1,6 +1,7 @@
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class URLinkedList<E> implements URList<E> {
@@ -317,17 +318,23 @@ public class URLinkedList<E> implements URList<E> {
 	// Returns an array containing all of the elements in this list
 	//  in proper sequence (from first to the last element).
 	public Object[] toArray() {
-		Object[] array = new Object[n];
-		URNode<E> temp = first;
-		
-		int i = 0;
-		while (temp != null) {
-			array[i] = temp.element();
-			if (temp == last) break;
-			temp = temp.next();
-			i++;
-		}
-		return array;
+        // Object[] array = new Object[n];
+        ArrayList<Object> arr = new ArrayList<>();
+        URNode<E> temp = first;
+        
+        while (temp != null) {
+            arr.add(temp.element());
+            if (temp == last) break;
+            temp = temp.next();
+        }
+
+        int i = 0;
+        Object[] array = new Object[arr.size()];
+        for (Object obj : arr) {
+            array[i] = arr.get(i);
+            i++;
+        }
+        return array;
     }
 
 }
