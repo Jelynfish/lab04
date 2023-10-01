@@ -1,5 +1,7 @@
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Arrays;
 
 public class URLinkedList<E> implements URList<E> {
     
@@ -210,8 +212,17 @@ public class URLinkedList<E> implements URList<E> {
 		
 		for (int i = 0; i < index; i++) temp = temp.next();
 
-		temp.prev().setNext(temp.next());
-		temp.next().setPrev(temp.prev());
+		if (temp != last) temp.next().setPrev(temp.prev());
+		else {
+			last = temp.prev();
+			temp.prev().setNext(null);
+		}
+		if (temp != first) temp.prev().setNext(temp.next());
+		else {
+			first = temp.next();
+			temp.next().setPrev(null);
+		};
+
 		n--;
 
 		return temp.element();
@@ -223,8 +234,16 @@ public class URLinkedList<E> implements URList<E> {
 		URNode<E> temp = first;
 		while (temp != null) {
 			if (temp.element().equals(o)) {
-				temp.prev().setNext(temp.next());
-				temp.next().setPrev(temp.prev());
+				if (temp != last) temp.next().setPrev(temp.prev());
+				else {
+					last = temp.prev();
+					temp.prev().setNext(null);
+				}
+				if (temp != first) temp.prev().setNext(temp.next());
+				else {
+					first = temp.next();
+					temp.next().setPrev(null);
+				}
 				n--;
 				return true;
 			}
@@ -267,23 +286,33 @@ public class URLinkedList<E> implements URList<E> {
 
 	// Returns a view of the portion of this list 
 	// between the specified fromIndex, inclusive, and toIndex, exclusive.
-	public URList<E> subList(int fromIndex, int toIndex) {
+	public URList<E> subList(int fromIndex, int toIndex){
+		if(fromIndex < 0 || fromIndex > this.size()-1 || toIndex < 0 || toIndex > this.size()-1){
+			throw new IndexOutOfBoundsException("Index out of bounds on call to subList with fromIndex of" + fromIndex + " and toIndex of" + toIndex);
+		}
+
 		URLinkedList<E> subList = new URLinkedList<E>();
 
-		int index = 0;
-		while (index < toIndex) {
-			URNode<E> thisNode = first;
+		int subListN = toIndex - fromIndex;
 
-			if (index >= fromIndex - 1) {
-				subList.add(thisNode.element());
-			}
-			index++;
-			thisNode = thisNode.next();
+		URNode<E> temp = first;
+		for (int i = 0; i < fromIndex; i++) temp = temp.next();
+
+		while (subList.n < subListN) {
+			if (subList.first == null) {
+           		subList.first = temp;
+				subList.last = temp;
+        	}	 
+			else {
+            	subList.last.setNext(temp);
+				subList.last = temp;
+        	}
+        	subList.n++;
+			temp = temp.next();
 		}
 
 		return subList;
     }
-
 
 	// Returns an array containing all of the elements in this list
 	//  in proper sequence (from first to the last element).
@@ -294,6 +323,7 @@ public class URLinkedList<E> implements URList<E> {
 		int i = 0;
 		while (temp != null) {
 			array[i] = temp.element();
+			if (temp == last) break;
 			temp = temp.next();
 			i++;
 		}

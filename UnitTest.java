@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -86,6 +87,16 @@ public class UnitTest {
             if (test1.size()==0){
                 System.out.println("Test 13 Passed");
             }
-    
+
+            for (int i = 0; i < 10; i++) {
+                    test1.add(i);
+                }
+            
+            
+            URList<Integer> sub = test1.subList(0, 4);
+            System.out.println(Arrays.toString(sub.toArray()));
+            sub.remove(3);
+            System.out.println(Arrays.toString(sub.toArray()));
+            System.out.println(Arrays.toString(test1.toArray()));
     }
 }
