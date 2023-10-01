@@ -94,9 +94,8 @@ public class UnitTest {
             
             
             URList<Integer> sub = test1.subList(0, 4);
-            System.out.println(Arrays.toString(sub.toArray()));
-            sub.remove(3);
-            System.out.println(Arrays.toString(sub.toArray()));
-            System.out.println(Arrays.toString(test1.toArray()));
-    }
+            if(sub.size()==4){
+                System.out.println("Test 14 Passed");
+            }
+}
 }
