@@ -1,3 +1,2 @@
-public class URArrayList implements URList {
-    
+public class URArrayList<E> implements URList {
 }

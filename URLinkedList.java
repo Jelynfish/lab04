@@ -113,7 +113,7 @@ public class URLinkedList<E> implements URList<E> {
 		if (this == o) return true;
 		
 		if (o instanceof URLinkedList) { 
-			URLinkedList<E> other = (URLinkedList<E>)o;
+			@SuppressWarnings("unchecked") URLinkedList<E> other = (URLinkedList<E>)o;
 			URNode<E> temp = first;
 			URNode<E> temp2 = other.first;
 
